@@ -3,6 +3,7 @@
 <script src="assets/js/script.js"></script>
 <?php if (isset($_GET['status'])): ?>
   <script>
+    // ... (kode sweetalert yang sudah ada tidak berubah) ...
     const status = "<?= htmlspecialchars($_GET['status']) ?>";
     if (status === 'create_success') {
       Swal.fire('Sukses!', 'eBook telah ditambahkan', 'success');
@@ -21,6 +22,29 @@
     }
   </script>
 <?php endif; ?>
+
+<script>
+  const keyword = document.getElementById('keyword');
+  const content = document.getElementById('content');
+
+  if (keyword) {
+    keyword.addEventListener('keyup', function() {
+      const url = 'index.php?action=search&keyword=' + this.value;
+
+      fetch(url, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.text())
+        .then(data => {
+          content.innerHTML = data;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+  }
+</script>
+
 </body>
 
 </html>

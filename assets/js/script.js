@@ -78,3 +78,24 @@ function showPassword() {
     confirmPassword.type = "password";
   }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const keyword = document.getElementById("keyword");
+  const content = document.getElementById("content");
+
+  if (keyword) {
+    keyword.addEventListener("keyup", function () {
+      const xhr = new XMLHttpRequest();
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          content.innerHTML = xhr.responseText;
+        }
+      };
+
+      xhr.open("GET", "index.php?action=search&keyword=" + keyword.value, true);
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xhr.send();
+    });
+  }
+});

@@ -36,9 +36,15 @@ class EbookController
     $index = $ebookPerPage * $activePage - $ebookPerPage;
     $ebooks = $this->ebookModel->search($keyword, $index, $ebookPerPage);
 
-    require 'views/list.php';
+    // Cek jika ini adalah request AJAX
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+      require 'views/ajax/search.php'; // Hanya kirim bagian konten
+    } else {
+      require 'views/list.php'; // Kirim halaman lengkap
+    }
   }
 
+  // ... (sisa fungsi lainnya tidak berubah) ...
   public function create()
   {
     AuthController::checkUserLogin();
